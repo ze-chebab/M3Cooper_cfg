@@ -62,8 +62,42 @@ sudo apt-get install ros-noetic-rosserial
 cd /usr/share/arduino/libraries 
 sudo git clone https://github.com/chrisspen/i2cdevlib.git
 cd /tmp
-wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.68.tar.gz
-tar zxvf bcm2835-1.68.tar.gz
+wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.50.tar.gz
+tar zxvf bcm2835-1.50.tar.gz
+cd bcm2835-1.50
+./configure
+sudo make
+sudo make check
+sudo make install
+```
+Then clone the project into your ROS workspace, then compile it :
+```
+cd home/zine/catkin_ws/src
+git clone https://github.com/chrisspen/ros_mpu6050_node.git
+cd ..
+catkin_make --pkg ros_mpu6050_node
+```
+Use of the ROS node :
+Before launching the node, we modify the parameters of the launch file by adding the offsets from the calibration step. To do so, we modify the mpu6050.lauch file in the following folder /home/zine/catkin_ws/src/ros_mpu6050_node/launch:
+```
+cd /home/zine/catkin_ws/src/ros_mpu6050_node/launch
+nano mpu6050.launch
+```
+In this file, we update the values of offsets (example for IMU_1) :
+```
+<param name="ax" type="int" value="-6287" />
+<param name="ay" type="int" value="-477" />
+<param name="az" type="int" value="1547" />
+<param name="gx" type="int" value="515" />
+<param name="gy" type="int" value="-22" />
+<param name="gz" type="int" value="9" />
+```
+We save the file then close it. Once this done, we launch the node :
+```
+sudo bash -c "source /home/zine/catkin_ws/devel/setup.bash; roslaunch ros_mpu6050_node mpu6050.launch"
+```
+Afterwards,
+```
 cd /tmp
 wget https://project-downloads.drogon.net/wiringpi-latest.deb
 sudo dpkg -i wiringpi-latest.deb

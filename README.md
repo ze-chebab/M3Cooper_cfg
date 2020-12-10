@@ -64,4 +64,7 @@ sudo git clone https://github.com/chrisspen/i2cdevlib.git
 cd /tmp
 wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.68.tar.gz
 tar zxvf bcm2835-1.68.tar.gz
+cd /tmp
+wget https://project-downloads.drogon.net/wiringpi-latest.deb
+sudo dpkg -i wiringpi-latest.deb
 ```
